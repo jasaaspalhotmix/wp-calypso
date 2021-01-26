@@ -109,7 +109,7 @@ const DomainPickerSuggestionItem: React.FC< Props > = ( {
 	const firstYearIncludedInPaidLabel = isMobile
 		? __( 'Included in paid plans', __i18n_text_domain__ )
 		: createInterpolateElement(
-				__( '<strong>First year included</strong> in paid plans', __i18n_text_domain__ ),
+				__( '<strong>First year included</strong> in annual plans', __i18n_text_domain__ ),
 				{
 					strong: <strong />,
 				}
