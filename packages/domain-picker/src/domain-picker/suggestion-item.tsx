@@ -92,7 +92,7 @@ const DomainPickerSuggestionItem: React.FC< Props > = ( {
 	const { __ } = useI18n();
 	const localizeUrl = useLocalizeUrl();
 
-	const isMobile = useViewportMatch( 'small', '<' );
+	const isMobile = ! useViewportMatch( 'small', '>=' );
 
 	const dotPos = domain.indexOf( '.' );
 	const domainName = domain.slice( 0, dotPos );
@@ -106,30 +106,14 @@ const DomainPickerSuggestionItem: React.FC< Props > = ( {
 			? __( 'Default', __i18n_text_domain__ )
 			: __( 'Free', __i18n_text_domain__ );
 
-	const firstYearIncludedInPaidLabel = isMobile
-		? __( 'Included in paid plans', __i18n_text_domain__ )
+	const paidIncludedDomainLabel = isMobile
+		? __( 'Included in annual plans', __i18n_text_domain__ )
 		: createInterpolateElement(
 				__( '<strong>First year included</strong> in annual plans', __i18n_text_domain__ ),
 				{
 					strong: <strong />,
 				}
 		  );
-
-	/**
-	 *  IIFE executes immediately after creation, hence it returns the translated values immediately.
-	 * The great advantage is that:
-	 * 1. We don't have to execute it during rendering.
-	 * 2. We don't have to use nested ternaries (which is not allowed by the linter).
-	 * 3. It improves the readibility of our code
-	 */
-	const paidIncludedDomainLabel = ( () => {
-		if ( type === ITEM_TYPE_INDIVIDUAL_ITEM ) {
-			return firstYearIncludedInPaidLabel;
-		} else if ( isMobile ) {
-			return __( 'Free', __i18n_text_domain__ );
-		}
-		return __( 'Included with annual plans', __i18n_text_domain__ );
-	} )();
 
 	React.useEffect( () => {
 		// Only record TrainTracks render event when the domain name and railcarId change.
