@@ -32,6 +32,7 @@ import { JETPACK_PRODUCTS_LIST } from 'calypso/lib/products-values/constants';
 import { JETPACK_RESET_PLANS } from 'calypso/lib/plans/constants';
 import { persistSignupDestination, retrieveSignupDestination } from 'calypso/signup/storageUtils';
 import { abtest } from 'calypso/lib/abtest';
+import { recordTracksEvent } from '@automattic/calypso-analytics';
 
 type SaveUrlToCookie = ( url: string ) => void;
 type GetUrlFromCookie = () => string | undefined;
@@ -51,6 +52,7 @@ export default function getThankYouPageUrl( {
 	saveUrlToCookie = persistSignupDestination,
 	isEligibleForSignupDestinationResult,
 	shouldShowOneClickTreatment,
+	shouldShowDifmUpsell,
 	hideNudge,
 	isInEditor,
 	previousRoute,
@@ -69,6 +71,7 @@ export default function getThankYouPageUrl( {
 	saveUrlToCookie?: SaveUrlToCookie;
 	isEligibleForSignupDestinationResult?: boolean;
 	shouldShowOneClickTreatment?: boolean;
+	shouldShowDifmUpsell?: boolean;
 	hideNudge?: boolean;
 	isInEditor?: boolean;
 	previousRoute?: string;
@@ -175,6 +178,7 @@ export default function getThankYouPageUrl( {
 		hideNudge: Boolean( hideNudge ),
 		shouldShowOneClickTreatment,
 		previousRoute,
+		shouldShowDifmUpsell,
 	} );
 	if ( redirectPathForConciergeUpsell ) {
 		debug( 'redirect for concierge exists, so returning', redirectPathForConciergeUpsell );
@@ -314,6 +318,7 @@ function getRedirectUrlForConciergeNudge( {
 	hideNudge,
 	shouldShowOneClickTreatment,
 	previousRoute,
+	shouldShowDifmUpsell,
 }: {
 	pendingOrReceiptId: string;
 	orderId: number | undefined;
@@ -322,6 +327,7 @@ function getRedirectUrlForConciergeNudge( {
 	hideNudge: boolean;
 	shouldShowOneClickTreatment: boolean | undefined;
 	previousRoute: string | undefined;
+	shouldShowDifmUpsell: boolean | undefined;
 } ): string | undefined {
 	if ( hideNudge ) {
 		return;
@@ -361,6 +367,14 @@ function getRedirectUrlForConciergeNudge( {
 				if ( shouldShowOneClickTreatment ) {
 					const upgradeItem = hasMonthlyCartItem( cart ) ? 'premium-monthly' : 'premium';
 					return `/checkout/${ siteSlug }/offer-plan-upgrade/${ upgradeItem }/${ pendingOrReceiptId }`;
+				}
+			}
+
+			if ( hasBusinessPlan( cart ) ) {
+				recordTracksEvent( 'calypso_eligible_difm_upsell' );
+
+				if ( shouldShowDifmUpsell ) {
+					return `/checkout/${ siteSlug }/offer-difm/${ pendingOrReceiptId }`;
 				}
 			}
 
