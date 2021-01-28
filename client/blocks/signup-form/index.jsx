@@ -127,6 +127,13 @@ class SignupForm extends Component {
 		form: null,
 		signedUp: false,
 		validationInitialized: false,
+		isFieldTouchedStates: {
+			firstName: false,
+			lastName: false,
+			username: false,
+			password: false,
+			email: false,
+		},
 	};
 
 	getInitialFields() {
@@ -301,7 +308,11 @@ class SignupForm extends Component {
 				}
 			}
 
-			onComplete( error, messages );
+			const touchedFields = Object.entries( this.state.isFieldTouchedStates )
+				.filter( ( [ , value ] ) => value )
+				.map( ( [ key ] ) => key );
+
+			onComplete( error, messages, touchedFields );
 			if ( ! this.state.validationInitialized ) {
 				this.setState( { validationInitialized: true } );
 			}
@@ -329,6 +340,12 @@ class SignupForm extends Component {
 	handleChangeEvent = ( event ) => {
 		const name = event.target.name;
 		const value = event.target.value;
+
+		const { isFieldTouchedStates } = this.state;
+		const isFieldPreviouslyTouched = isFieldTouchedStates[ name ];
+		if ( ! isFieldPreviouslyTouched ) {
+			this.setState( { isFieldTouchedStates: { ...isFieldTouchedStates, [ name ]: true } } );
+		}
 
 		this.formStateController.handleFieldChange( {
 			name: name,
@@ -375,7 +392,16 @@ class SignupForm extends Component {
 			return;
 		}
 
-		this.setState( { submitting: true } );
+		this.setState( {
+			submitting: true,
+			isFieldTouchedStates: {
+				firstName: true,
+				lastName: true,
+				username: true,
+				password: true,
+				email: true,
+			},
+		} );
 
 		if ( this.props.submitting ) {
 			resetAnalyticsData();

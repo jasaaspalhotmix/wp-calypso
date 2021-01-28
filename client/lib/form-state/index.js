@@ -144,7 +144,7 @@ assign( Controller.prototype, {
 
 		this._validatorFunction(
 			fieldValues,
-			function ( error, fieldErrors ) {
+			function ( error, fieldErrors, touchedFields = null ) {
 				if ( id !== this._pendingValidation ) {
 					return;
 				}
@@ -156,7 +156,12 @@ assign( Controller.prototype, {
 
 				this._pendingValidation = null;
 				this._setState(
-					setFieldErrors( this._currentState, fieldErrors, this._hideFieldErrorsOnChange )
+					setFieldErrors(
+						this._currentState,
+						fieldErrors,
+						this._hideFieldErrorsOnChange,
+						touchedFields
+					)
 				);
 
 				if ( this._onValidationComplete ) {
@@ -222,7 +227,7 @@ function setFieldsValidating( formState ) {
 	);
 }
 
-function setFieldErrors( formState, fieldErrors, hideFieldErrorsOnChange ) {
+function setFieldErrors( formState, fieldErrors, hideFieldErrorsOnChange, touchedFields ) {
 	return assign(
 		{},
 		formState,
@@ -234,7 +239,14 @@ function setFieldErrors( formState, fieldErrors, hideFieldErrorsOnChange ) {
 			};
 
 			if ( hideFieldErrorsOnChange ) {
-				newFields.isShowingErrors = Boolean( fieldErrors[ name ] );
+				// This latter introduction of the "touched" concept was made backward compatible
+				// by making the default state of isTouched to be true for all fields
+				let isTouched = true;
+				if ( Array.isArray( touchedFields ) && ! touchedFields.includes( name ) ) {
+					isTouched = false;
+				}
+
+				newFields.isShowingErrors = isTouched && Boolean( fieldErrors[ name ] );
 			}
 
 			return newFields;
