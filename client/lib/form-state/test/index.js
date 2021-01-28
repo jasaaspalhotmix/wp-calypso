@@ -144,6 +144,50 @@ describe( 'index', () => {
 					} );
 				} );
 			} );
+
+			describe( '#touchedFieldErrors', () => {
+				test( 'Hide errors if fields are not touched', () => {
+					return new Promise( ( done ) => {
+						const validatorFunction = function ( fieldValues, onComplete ) {
+							const touchedFields = [ 'firstName' ];
+							onComplete(
+								null,
+								{
+									email: fieldValues.email.length > 0 ? [] : [ 'Email cannot be empty' ],
+									firstName:
+										fieldValues.firstName.length > 0 ? [] : [ 'First name cannot be empty' ],
+								},
+								touchedFields
+							);
+						};
+
+						const onNewState = checkNthState( 4, function ( state ) {
+							const isFirstNameInvalid = formState.isFieldInvalid( state, 'firstName' );
+							const isEmailInvalid = formState.isFieldInvalid( state, 'email' );
+
+							assert.strictEqual( isFirstNameInvalid, true );
+							assert.strictEqual( isEmailInvalid, false );
+							done();
+						} );
+
+						const controller = testController( {
+							fieldNames: [ 'email', 'firstName' ],
+							validatorFunction: validatorFunction,
+							onNewState: onNewState,
+						} );
+
+						controller.handleFieldChange( {
+							name: 'firstName',
+							value: 'foo',
+						} );
+
+						controller.handleFieldChange( {
+							name: 'firstName',
+							value: '',
+						} );
+					} );
+				} );
+			} );
 		} );
 	} );
 } );
