@@ -3,7 +3,7 @@
  */
 import i18n from 'i18n-calypso';
 import debugFactory from 'debug';
-import { forEach, includes } from 'lodash';
+import { forEach, includes, throttle } from 'lodash';
 
 /**
  * Internal dependencies
@@ -261,6 +261,33 @@ function getInstalledChunks() {
 }
 
 /**
+ * Translation data batch strore.
+ *
+ * @type {Array}
+ */
+const _translationsBatch = [];
+
+/**
+ * A throttle wrapper around i18n.addTranslations.
+ *
+ * @param {Object} userTranslations User translations data that will override chunk translations
+ */
+const _addTranslationsBatch = throttle( function ( userTranslations ) {
+	i18n.addTranslations( Object.assign( {}, ..._translationsBatch.splice( 0 ), userTranslations ) );
+}, 1000 / 60 );
+
+/**
+ * Adds new translations to the existing locale data.
+ *
+ * @param {Object} translations     Translations data
+ * @param {Object} [userTranslations] User translations data that will override chunk translations
+ */
+function addTranslations( translations, userTranslations ) {
+	_translationsBatch.push( translations );
+	_addTranslationsBatch( userTranslations );
+}
+
+/**
  * Used to keep the reference to the require chunk translations handler.
  */
 let lastRequireChunkTranslationsHandler = null;
@@ -294,7 +321,7 @@ function addRequireChunkTranslationsHandler(
 			localeSlug,
 			targetBuild
 		).then( ( translations ) => {
-			i18n.addTranslations( { ...translations, ...userTranslations } );
+			addTranslations( translations, userTranslations );
 			loadedTranslationChunks[ chunkId ] = true;
 		} );
 
@@ -366,7 +393,7 @@ export default async function switchLocale( localeSlug ) {
 			// Load individual translation chunks
 			translatedInstalledChunks.forEach( ( chunkId ) =>
 				getTranslationChunkFile( chunkId, localeSlug, window?.BUILD_TARGET )
-					.then( ( translations ) => i18n.addTranslations( translations ) )
+					.then( ( translations ) => addTranslations( translations ) )
 					.catch( ( error ) => {
 						debug( `Encountered an error loading translation chunk ${ chunkId }.` );
 						debug( error );
