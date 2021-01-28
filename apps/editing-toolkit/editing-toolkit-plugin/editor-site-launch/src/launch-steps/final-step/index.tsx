@@ -129,10 +129,10 @@ const FinalStep: React.FunctionComponent< LaunchStepProps > = ( { onNextStep, on
 					{ planProduct.billingPeriod === 'ANNUALLY'
 						? sprintf(
 								// translators: %s is the cost per year (e.g "billed as 96$ annually")
-								__( 'billed as %s annually', 'full-site-editing' ),
+								__( 'per month, billed as %s annually', 'full-site-editing' ),
 								planProduct?.annualPrice
 						  )
-						: __( 'billed monthly', 'full-site-editing' ) }
+						: __( 'per month, billed monthly', 'full-site-editing' ) }
 				</>
 			) : (
 				<>
