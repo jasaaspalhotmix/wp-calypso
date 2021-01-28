@@ -58,7 +58,7 @@ export interface Props {
 }
 
 // NOTE: there is some duplicate markup between this plan item (used in the
-// 'table' version of the plans grid) and the accortion plan item (used in the
+// 'table' version of the plans grid) and the accordion plan item (used in the
 // 'accordion' version of the plans grid). Ideally the code should be refactored
 // to use the same markup, with just different styles
 
@@ -158,7 +158,7 @@ const PlanItem: React.FunctionComponent< Props > = ( {
 						</div>
 
 						{ /*
-							For the free plan, the following div is still rendered invisibile
+							For the free plan, the following div is still rendered invisible
 							and ignored by screen readers (via aria-hidden) to ensure the same
 							vertical spacing as the rest of the plan cards
 						 */ }
