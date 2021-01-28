@@ -149,8 +149,12 @@ const PlanItem: React.FunctionComponent< Props > = ( {
 							{ isFree && __( 'free forever', __i18n_text_domain__ ) }
 							{ ! isFree &&
 								( billingPeriod === 'ANNUALLY'
-									? __( 'billed annually', __i18n_text_domain__ )
 									: __( 'per month, billed monthly', __i18n_text_domain__ ) ) }
+									? sprintf(
+											// translators: %s is the cost per year (e.g "billed as 96$ annually")
+											__( 'billed as %s annually', __i18n_text_domain__ ),
+											planProduct?.annualPrice
+									  )
 						</div>
 
 						{ /*
