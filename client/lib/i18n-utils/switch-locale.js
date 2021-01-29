@@ -274,7 +274,7 @@ const _translationsBatch = [];
  */
 const _addTranslationsBatch = throttle( function ( userTranslations ) {
 	i18n.addTranslations( Object.assign( {}, ..._translationsBatch.splice( 0 ), userTranslations ) );
-}, 1000 / 60 );
+}, 100 );
 
 /**
  * Adds new translations to the existing locale data.
