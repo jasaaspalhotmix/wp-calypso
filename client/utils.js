@@ -20,28 +20,3 @@ export const promisify = ( fn ) => ( ...args ) =>
 			}
 		} );
 	} );
-
-/**
- * Wrap a promise so it can be cancelled.
- *
- * @param {Promise<T>} promise
- * @returns {{cancel(): void, promise: Promise<T>}}
- */
-export function makeCancellable( promise ) {
-	let cancellation = null;
-
-	const wrappedPromise = new Promise( ( resolve, reject ) => {
-		promise.then(
-			( value ) => ( cancellation === null ? resolve( value ) : reject( cancellation ) ),
-			( error ) => ( cancellation === null ? reject( error ) : reject( cancellation ) )
-		);
-	} );
-
-	return {
-		promise: wrappedPromise,
-		cancel() {
-			cancellation = new Error( 'Cancelled.' );
-			cancellation.isCancelled = true;
-		},
-	};
-}

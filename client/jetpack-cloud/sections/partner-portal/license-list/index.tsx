@@ -18,7 +18,6 @@ import {
 	hasFetchedLicenses,
 	isFetchingLicenses,
 	getLicenses,
-	getLicensesError,
 } from 'calypso/state/partner-portal/licenses/selectors';
 
 /**
@@ -31,7 +30,6 @@ export default function LicenseList() {
 	const hasFetched = useSelector( hasFetchedLicenses );
 	const isFetching = useSelector( isFetchingLicenses );
 	const licenses = useSelector( getLicenses );
-	const error = useSelector( getLicensesError );
 
 	return (
 		<div className="license-list">
@@ -70,15 +68,9 @@ export default function LicenseList() {
 					/>
 				) ) }
 
-			{ ! error && hasFetched && licenses.length === 0 && (
+			{ hasFetched && licenses.length === 0 && (
 				<Card className="license-list__message" compact>
 					{ translate( 'No licenses found.' ) }
-				</Card>
-			) }
-
-			{ error && (
-				<Card className="license-list__message" compact>
-					{ translate( 'Failed to retrieve your licenses. Please try again later.' ) }
 				</Card>
 			) }
 		</div>

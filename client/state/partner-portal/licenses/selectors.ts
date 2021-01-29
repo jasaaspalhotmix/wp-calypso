@@ -1,9 +1,4 @@
 /**
- * External dependencies
- */
-import find from 'lodash/find';
-
-/**
  * Internal dependencies
  */
 import { License, PartnerPortalStore } from 'calypso/state/partner-portal';
@@ -20,8 +15,4 @@ export function isFetchingLicenses( state: PartnerPortalStore ): boolean {
 
 export function getLicenses( state: PartnerPortalStore ): License[] {
 	return state.partnerPortal.licenses.all;
-}
-
-export function getLicensesError( state: PartnerPortalStore ): string {
-	return state.partnerPortal.licenses.error;
 }

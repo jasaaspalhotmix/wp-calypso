@@ -2,7 +2,7 @@
  * External dependencies
  */
 import debugFactory from 'debug';
-import { camelCase, isPlainObject, omit, pick, snakeCase, set, shuffle } from 'lodash';
+import { camelCase, isPlainObject, omit, pick, snakeCase, set } from 'lodash';
 import { stringify } from 'qs';
 
 /**
@@ -2615,66 +2615,6 @@ Undocumented.prototype.getJetpackPartnerPortalPartner = function () {
 	return this.wpcom.req.get( {
 		apiNamespace: 'wpcom/v2',
 		path: '/jetpack-licensing/partner',
-	} );
-};
-
-/**
- * Request Partner Portal licenses.
- *
- * @returns {Promise} A promise
- */
-Undocumented.prototype.getJetpackPartnerPortalLicenses = function () {
-	const data = [
-		{
-			id: 1,
-			license_key: 'jetpack-security-daily_AcNAyEhPaSXeFVgRj0gZkgn0Z',
-			issued_at: '2020-11-26 15:24:02',
-			attached_at: '2021-11-26 15:24:08',
-			revoked_at: '',
-			domain: 'yetanothersite.net',
-			product: 'Jetpack Security Daily',
-			username: 'ianramosc',
-			blog_id: 883882032,
-		},
-		{
-			id: 2,
-			license_key: 'jetpack-backup-daily_AcNAyEhPaSXeFVgRj0gZkgn0Z',
-			issued_at: '2021-11-25 15:24:08',
-			attached_at: '',
-			revoked_at: '',
-			domain: '',
-			product: 'Jetpack Backup Daily',
-			username: 'ianramosc',
-			blog_id: 883882032,
-		},
-		{
-			id: 3,
-			license_key: 'jetpack-security-realtime_AcNAyEhPaSXeFVgRj0gZkgn0Z',
-			issued_at: '2021-11-23 15:24:08',
-			attached_at: '2021-11-23 15:25:08',
-			revoked_at: '',
-			domain: 'mygroovysite.co.uk',
-			product: 'Jetpack Security Real-time',
-			username: 'ianramosc',
-			blog_id: 883882032,
-		},
-		{
-			id: 4,
-			license_key: 'jetpack-anti-spam_AcNAyEhPaSXeFVgRj0gZkgn0Z',
-			issued_at: '2021-01-21 15:24:08',
-			attached_at: '2021-11-21 15:24:18',
-			revoked_at: '2021-01-22 15:24:33',
-			domain: 'mylicenselesssite.com',
-			product: 'Jetpack Anti-Spam',
-			username: 'ianramosc',
-			blog_id: 883882032,
-		},
-	];
-
-	return new Promise( ( resolve ) => {
-		setTimeout( () => {
-			resolve( shuffle( data ) );
-		}, 1000 );
 	} );
 };
 

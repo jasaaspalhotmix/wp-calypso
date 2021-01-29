@@ -26,7 +26,7 @@ export interface PartnerStore {
 }
 
 export interface License {
-	id: number;
+	licenseId: number;
 	licenseKey: string;
 	issuedAt: string;
 	attachedAt: string;
@@ -41,7 +41,6 @@ export interface LicensesStore {
 	hasFetched: boolean;
 	isFetching: boolean;
 	all: License[];
-	error: string;
 }
 
 export interface PartnerPortalStore {
