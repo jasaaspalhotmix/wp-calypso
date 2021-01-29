@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import React, { useCallback } from 'react';
+import React, { ReactElement, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslate } from 'i18n-calypso';
 
@@ -16,7 +16,7 @@ import DocumentHead from 'calypso/components/data/document-head';
 import LicenseList from 'calypso/jetpack-cloud/sections/partner-portal/license-list';
 import { fetchLicenses } from 'calypso/state/partner-portal/licenses/actions';
 
-export default function Licenses() {
+export default function Licenses(): ReactElement {
 	const translate = useTranslate();
 	const dispatch = useDispatch();
 

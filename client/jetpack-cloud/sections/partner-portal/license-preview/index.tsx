@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, ReactElement } from 'react';
 import { useTranslate } from 'i18n-calypso';
 import classnames from 'classnames';
 
@@ -41,7 +41,7 @@ export default function LicensePreview( {
 	issuedAt,
 	attachedAt,
 	revokedAt,
-}: Props ) {
+}: Props ): ReactElement {
 	const translate = useTranslate();
 	const [ isOpen, setOpen ] = useState( false );
 	const licenseState = getLicenseState( attachedAt, revokedAt );
@@ -142,14 +142,14 @@ export default function LicensePreview( {
 	);
 }
 
-export function LicensePreviewPlaceholder() {
+export function LicensePreviewPlaceholder(): ReactElement {
 	const translate = useTranslate();
 
 	return (
 		<div className="license-preview license-preview--placeholder">
 			<LicenseListItem className="license-preview__card">
 				<div>
-					<h3 className="license-preview__domain" />
+					<h3 className="license-preview__domain">{ translate( 'Loading' ) }</h3>
 
 					<div className="license-preview__product" />
 				</div>

@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslate } from 'i18n-calypso';
 
@@ -25,7 +25,7 @@ import {
  */
 import './style.scss';
 
-export default function LicenseList() {
+export default function LicenseList(): ReactElement {
 	const translate = useTranslate();
 	const hasFetched = useSelector( hasFetchedLicenses );
 	const isFetching = useSelector( isFetchingLicenses );
