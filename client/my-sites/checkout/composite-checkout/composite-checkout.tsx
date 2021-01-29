@@ -199,6 +199,7 @@ export default function CompositeCheckout( {
 		purchaseId,
 		isJetpackNotAtomic,
 		isPrivate,
+		siteSlug,
 	} );
 
 	const {
