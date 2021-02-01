@@ -269,7 +269,15 @@ function ChangePaymentMethodList( {
 				'existing-card': ( data ) => assignExistingCardProcessor( purchase, data ),
 				card: ( data ) =>
 					assignNewCardProcessor(
-						{ purchase, translate, siteSlug, apiParams, stripe, stripeConfiguration },
+						{
+							apiParams,
+							purchase,
+							reduxDispatch,
+							siteSlug,
+							stripe,
+							stripeConfiguration,
+							translate,
+						},
 						data
 					),
 			} }

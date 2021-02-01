@@ -37,6 +37,7 @@ export async function assignNewCardProcessor(
 		apiParams,
 		stripe,
 		stripeConfiguration,
+		reduxDispatch,
 	}: {
 		purchase: { id: string };
 		translate: ReturnType< typeof useTranslate >;
@@ -83,6 +84,7 @@ export async function assignNewCardProcessor(
 				token,
 				translate,
 				stripeConfiguration,
+				reduxDispatch,
 			} )
 		)
 		.then( ( data ) => {
