@@ -399,7 +399,7 @@ const webpackConfig = {
 	...( shouldUsePersistentCache
 		? {
 				cache: {
-					// eslint-disable-next-line inclusive-language/use-inclusive-words
+					// eslint -disable-next-line inclusive-language/use-inclusive-words
 					// More info in https://github.com/webpack/changelog-v5/blob/master/guides/persistent-caching.md
 					type: 'filesystem',
 					version: [
