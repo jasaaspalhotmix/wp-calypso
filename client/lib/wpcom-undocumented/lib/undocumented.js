@@ -2634,4 +2634,11 @@ Undocumented.prototype.getJetpackPartnerPortalPartner = function () {
 	} );
 };
 
+Undocumented.prototype.saveDifmInterestForUser = function () {
+	return this.wpcom.req.get( {
+		apiNamespace: 'wpcom/v2',
+		path: '/difm/interested',
+	} );
+};
+
 export default Undocumented;
