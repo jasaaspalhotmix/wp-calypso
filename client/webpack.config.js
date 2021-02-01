@@ -395,6 +395,19 @@ const webpackConfig = {
 		! isDesktop && ! isDevelopment && new ExtractManifestPlugin(),
 	].filter( Boolean ),
 	externals: [ 'keytar' ],
+	cache: {
+		type: 'filesystem',
+		cacheDirectory: path.resolve( cachePath, 'webpack' ),
+		buildDependencies: {
+			config: [ __filename ],
+		},
+	},
+	snapshot: {
+		managedPaths: [
+			path.resolve( __dirname, '../node_modules' ),
+			path.resolve( __dirname, 'node_modules' ),
+		],
+	},
 };
 
 module.exports = webpackConfig;
