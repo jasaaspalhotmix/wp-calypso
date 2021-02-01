@@ -8,7 +8,7 @@ FROM node:${node_version} as builder-cache-false
 ###################
 # This image contains a directory /calypso/.cache which includes caches
 # for yarn, terser, css-loader, babel, webpack...
-FROM registry.a8c.com/calypso/base:latest as builder-cache-true
+FROM registry.a8c.com/calypso/base:1.0.193 as builder-cache-true
 
 ENV YARN_CACHE_FOLDER=/calypso/.cache/yarn
 ENV NPM_CONFIG_CACHE=/calypso/.cache
