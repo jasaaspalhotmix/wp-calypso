@@ -8,7 +8,7 @@
  * Internal dependencies
  */
 import getThankYouPageUrl from '../hooks/use-get-thank-you-url/get-thank-you-page-url';
-import { isEnabled } from 'calypso/config';
+import { isEnabled } from '@automattic/calypso-config';
 import { PLAN_BUSINESS, PLAN_ECOMMERCE } from '../../../../lib/plans/constants';
 
 let mockGSuiteCountryIsValid = true;
