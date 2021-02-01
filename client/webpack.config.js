@@ -420,6 +420,9 @@ const webpackConfig = {
 						path.resolve( __dirname, 'node_modules' ),
 					],
 				},
+				infrastructureLogging: {
+					debug: /webpack\.cache/,
+				},
 		  }
 		: {} ),
 };
