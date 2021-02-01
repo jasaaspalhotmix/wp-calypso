@@ -101,7 +101,6 @@ object BuildBaseImages : BuildType({
 					path = "Dockerfile.base"
 				}
 				namesAndTags = """
-					registry.a8c.com/calypso/base:latest
 					registry.a8c.com/calypso/base:%build.number%
 				""".trimIndent()
 				commandArgs = "--no-cache --target builder"
@@ -115,7 +114,6 @@ object BuildBaseImages : BuildType({
 					path = "Dockerfile.base"
 				}
 				namesAndTags = """
-					registry.a8c.com/calypso/ci:latest
 					registry.a8c.com/calypso/ci:%build.number%
 				""".trimIndent()
 				commandArgs = "--target ci"
@@ -129,7 +127,6 @@ object BuildBaseImages : BuildType({
 					path = "Dockerfile.base"
 				}
 				namesAndTags = """
-					registry.a8c.com/calypso/ci-desktop:latest
 					registry.a8c.com/calypso/ci-desktop:%build.number%
 				""".trimIndent()
 				commandArgs = "--target ci-desktop"
@@ -143,7 +140,6 @@ object BuildBaseImages : BuildType({
 					path = "Dockerfile.base"
 				}
 				namesAndTags = """
-					registry.a8c.com/calypso/ci-e2e:latest
 					registry.a8c.com/calypso/ci-e2e:%build.number%
 				""".trimIndent()
 				commandArgs = "--target ci-e2e"
@@ -157,7 +153,6 @@ object BuildBaseImages : BuildType({
 					path = "Dockerfile.base"
 				}
 				namesAndTags = """
-					registry.a8c.com/calypso/ci-wpcom:latest
 					registry.a8c.com/calypso/ci-wpcom:%build.number%
 				""".trimIndent()
 				commandArgs = "--target ci-wpcom"
@@ -168,15 +163,10 @@ object BuildBaseImages : BuildType({
 			name = "Push images"
 			commandType = push {
 				namesAndTags = """
-					registry.a8c.com/calypso/base:latest
 					registry.a8c.com/calypso/base:%build.number%
-					registry.a8c.com/calypso/ci:latest
 					registry.a8c.com/calypso/ci:%build.number%
-					registry.a8c.com/calypso/ci-desktop:latest
 					registry.a8c.com/calypso/ci-desktop:%build.number%
-					registry.a8c.com/calypso/ci-e2e:latest
 					registry.a8c.com/calypso/ci-e2e:%build.number%
-					registry.a8c.com/calypso/ci-wpcom:latest
 					registry.a8c.com/calypso/ci-wpcom:%build.number%
 				""".trimIndent()
 			}
