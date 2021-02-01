@@ -168,9 +168,7 @@ const SignupForm = ( { onRequestClose }: Props ) => {
 
 	const langFragment = lang ? `/${ lang }` : '';
 
-	let loginRedirectUrl = window.location.origin + '/new';
-	if ( isAnchorFmSignup ) {
-		loginRedirectUrl += `${ makePath( Step.IntentGathering ) }?new`;
+	const addAnchorQueryParts = ( url: string ): string => {
 		const queryParts = {
 			anchor_podcast: anchorFmPodcastId,
 			anchor_episode: anchorFmEpisodeId,
@@ -178,15 +176,26 @@ const SignupForm = ( { onRequestClose }: Props ) => {
 		};
 		for ( const [ k, v ] of Object.entries( queryParts ) ) {
 			if ( v ) {
-				loginRedirectUrl += `&${ k }=${ encodeURIComponent( v ) }`;
+				url += `&${ k }=${ encodeURIComponent( v ) }`;
 			}
 		}
+		return url;
+	};
+
+	let loginRedirectUrl = window.location.origin + '/new';
+	if ( isAnchorFmSignup ) {
+		loginRedirectUrl += `${ makePath( Step.IntentGathering ) }?new`;
+		loginRedirectUrl = addAnchorQueryParts( loginRedirectUrl );
 	} else {
 		loginRedirectUrl += `${ makePath( Step.CreateSite ) }?new`;
 	}
 	loginRedirectUrl = encodeURIComponent( loginRedirectUrl );
 
-	const signupUrl = encodeURIComponent( `/new${ makePath( Step[ currentStep ] ) }?signup` );
+	let signupUrl = `/new${ makePath( Step[ currentStep ] ) }?signup`;
+	if ( isAnchorFmSignup ) {
+		signupUrl = addAnchorQueryParts( signupUrl );
+	}
+	signupUrl = encodeURIComponent( signupUrl );
 	const loginUrl = `/log-in/new${ langFragment }?redirect_to=${ loginRedirectUrl }&signup_url=${ signupUrl }`;
 
 	return (
