@@ -61,6 +61,7 @@ const shouldBuildChunksMap =
 	process.env.BUILD_TRANSLATION_CHUNKS === 'true' ||
 	process.env.ENABLE_FEATURES === 'use-translation-chunks';
 const isDesktop = calypsoEnv === 'desktop' || calypsoEnv === 'desktop-development';
+const shouldUsePersistentCache = process.env.PERSISTENT_CACHE === 'true';
 
 const defaultBrowserslistEnv = 'evergreen';
 const browserslistEnv = process.env.BROWSERSLIST_ENV || defaultBrowserslistEnv;
@@ -395,19 +396,32 @@ const webpackConfig = {
 		! isDesktop && ! isDevelopment && new ExtractManifestPlugin(),
 	].filter( Boolean ),
 	externals: [ 'keytar' ],
-	cache: {
-		type: 'filesystem',
-		cacheDirectory: path.resolve( cachePath, 'webpack' ),
-		buildDependencies: {
-			config: [ __filename ],
-		},
-	},
-	snapshot: {
-		managedPaths: [
-			path.resolve( __dirname, '../node_modules' ),
-			path.resolve( __dirname, 'node_modules' ),
-		],
-	},
+	...( shouldUsePersistentCache
+		? {
+				cache: {
+					// eslint-disable-next-line inclusive-language/use-inclusive-words
+					// More info in https://github.com/webpack/changelog-v5/blob/master/guides/persistent-caching.md
+					type: 'filesystem',
+					version: [
+						shouldBuildChunksMap,
+						shouldMinify,
+						process.env.ENTRY_LIMIT,
+						process.env.SECTION_LIMIT,
+						process.env.SOURCEMAP,
+					].join( '-' ),
+					cacheDirectory: path.resolve( cachePath, 'webpack' ),
+					buildDependencies: {
+						config: [ __filename ],
+					},
+				},
+				snapshot: {
+					managedPaths: [
+						path.resolve( __dirname, '../node_modules' ),
+						path.resolve( __dirname, 'node_modules' ),
+					],
+				},
+		  }
+		: {} ),
 };
 
 module.exports = webpackConfig;
