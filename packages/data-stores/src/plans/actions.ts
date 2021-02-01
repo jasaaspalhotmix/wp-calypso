@@ -3,35 +3,54 @@
  */
 import type { Plan, PlanFeature, FeaturesByType, PlanProduct } from './types';
 
-export const setFeatures = ( features: Record< string, PlanFeature > ) => {
+type setFeaturesAction = {
+	type: 'SET_FEATURES';
+	features: Record< string, PlanFeature >;
+};
+export const setFeatures = ( features: Record< string, PlanFeature > ): setFeaturesAction => {
 	return {
 		type: 'SET_FEATURES' as const,
 		features,
 	};
 };
 
-export const setFeaturesByType = ( featuresByType: Array< FeaturesByType > ) => {
+type setFeaturesByTypeAction = {
+	type: 'SET_FEATURES_BY_TYPE';
+	featuresByType: Array< FeaturesByType >;
+};
+export const setFeaturesByType = (
+	featuresByType: Array< FeaturesByType >
+): setFeaturesByTypeAction => {
 	return {
 		type: 'SET_FEATURES_BY_TYPE' as const,
 		featuresByType,
 	};
 };
 
-export const setPlans = ( plans: Plan[] ) => {
+type setPlansAction = {
+	type: 'SET_PLANS';
+	plans: Plan[];
+};
+export const setPlans = ( plans: Plan[] ): setPlansAction => {
 	return {
 		type: 'SET_PLANS' as const,
 		plans,
 	};
 };
 
-export const setPlanProducts = ( products: PlanProduct[] ) => {
+type setPlanProductsAction = {
+	type: 'SET_PLAN_PRODUCTS';
+	products: PlanProduct[];
+};
+export const setPlanProducts = ( products: PlanProduct[] ): setPlanProductsAction => {
 	return {
 		type: 'SET_PLAN_PRODUCTS' as const,
 		products,
 	};
 };
 
-export const resetPlan = () => {
+type resetPlanAction = { type: 'RESET_PLAN' };
+export const resetPlan = (): resetPlanAction => {
 	return {
 		type: 'RESET_PLAN' as const,
 	};
@@ -43,4 +62,5 @@ export type PlanAction = ReturnType<
 	| typeof setPlans
 	| typeof resetPlan
 	| typeof setPlanProducts
+	| ( () => { type: 'NOOP' } )
 >;
