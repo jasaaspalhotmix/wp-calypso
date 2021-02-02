@@ -277,10 +277,9 @@ class Dashboard extends Component {
 			siteId,
 			finishedInstallOfRequiredPlugins,
 			shouldRedirectAfterInstall,
-			isCalypsoStoreDeprecatedOrRemoved,
 		} = this.props;
 		const useWideLayout = isSetupComplete ? true : false;
-		const shouldShowStoreNotice = isCalypsoStoreDeprecatedOrRemoved && ! shouldRedirectAfterInstall;
+		const shouldShowStoreNotice = ! shouldRedirectAfterInstall;
 		const shouldRenderDashboardContents =
 			! config.isEnabled( 'woocommerce/store-removed' ) ||
 			! finishedInstallOfRequiredPlugins ||
@@ -325,9 +324,6 @@ function mapStateToProps( state ) {
 	const loading = setupChoicesLoading || ! hasCounts || settingsGeneralLoading;
 	const shouldRedirectAfterInstall =
 		'' === get( getCurrentQueryArguments( state ), 'redirect_after_install' );
-	const isCalypsoStoreDeprecatedOrRemoved =
-		config.isEnabled( 'woocommerce/store-deprecated' ) ||
-		config.isEnabled( 'woocommerce/store-removed' );
 
 	const isSiteWpcomStore = getSiteOption( state, siteId, 'is_wpcom_store' );
 
@@ -347,7 +343,6 @@ function mapStateToProps( state ) {
 		siteId,
 		storeLocation,
 		shouldRedirectAfterInstall,
-		isCalypsoStoreDeprecatedOrRemoved,
 		isSiteWpcomStore,
 	};
 }
