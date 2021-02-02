@@ -495,6 +495,7 @@ class ManagePurchase extends Component {
 		const { plan, purchase, site, theme, translate } = this.props;
 
 		let description = purchaseType( purchase );
+
 		if ( isPlan( purchase ) ) {
 			description = plan.getDescription();
 		} else if ( isTheme( purchase ) && theme ) {
@@ -516,6 +517,26 @@ class ManagePurchase extends Component {
 				'Transfers an existing domain from another provider to WordPress.com, ' +
 					'helping you manage your site and domain in one place.'
 			);
+		} else if ( isGSuiteOrGoogleWorkspace( purchase ) ) {
+			description = translate( 'Account for %(domain)s', {
+				args: {
+					domain: purchase.meta,
+				},
+			} );
+
+			if ( purchase.purchaseRenewalQuantity ) {
+				description = translate(
+					'%(numberOfUsers)d user for %(domain)s',
+					'%(numberOfUsers)d user for %(domain)s',
+					{
+						count: purchase.purchaseRenewalQuantity,
+						args: {
+							numberOfUsers: purchase.purchaseRenewalQuantity,
+							domain: purchase.meta,
+						},
+					}
+				);
+			}
 		} else if ( isTitanMail( purchase ) ) {
 			description = translate( 'Email for %(domain)s', {
 				args: {
