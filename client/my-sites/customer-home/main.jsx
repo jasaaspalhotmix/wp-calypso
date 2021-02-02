@@ -3,7 +3,7 @@
  */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { connect } from 'react-redux';
+import { connect, useDispatch } from 'react-redux';
 import { useTranslate } from 'i18n-calypso';
 import { flowRight } from 'lodash';
 
@@ -29,7 +29,7 @@ import { getHomeLayout } from 'calypso/state/selectors/get-home-layout';
 import Primary from 'calypso/my-sites/customer-home/locations/primary';
 import Secondary from 'calypso/my-sites/customer-home/locations/secondary';
 import Tertiary from 'calypso/my-sites/customer-home/locations/tertiary';
-import notices from 'calypso/notices';
+import { successNotice } from 'calypso/state/notices/actions';
 
 /**
  * Style dependencies
@@ -59,10 +59,13 @@ const Home = ( {
 	}
 
 	if ( 'purchase-success' === noticeType ) {
+		const reduxDispatch = useDispatch();
 		const successMessage = translate( 'Your purchase has been completed!' );
-		notices.success( successMessage, {
-			persistent: true,
-		} );
+		reduxDispatch(
+			successNotice( successMessage, {
+				isPersistent: true,
+			} )
+		);
 	}
 
 	const header = (
